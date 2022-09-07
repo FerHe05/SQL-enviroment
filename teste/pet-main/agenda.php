@@ -46,75 +46,75 @@ if (!isset($_SESSION["user"])) {
                 <div class="card-header py-3">
                     <h4 class="my-0 fw-normal"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
                             <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
-                        </svg>&nbsp;&nbsp;<b>Relatorios</b></h4>
+                        </svg>&nbsp;&nbsp;<b>Agenda</b></h4>
                 </div>
                 <div class="card-body">
-                    <button type="button" class="btn btn-outline-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Cadastrar novo relatório</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Cadastrar nova Agenda</button>
                     <br />
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>                           
-                                <th scope="col">Vendas</th>
-                                <th scope="col">Despesas</th>   
-                                <th scope="col">Data</th>                                                       
-                                <th scope="col">Hora</th>      
+                                <th scope="col">Lembrete</th>
+                                <th scope="col">Data</th>   
+                                <th scope="col">Hora</th>                                                       
+                                <th scope="col">Observação</th>      
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             include 'conecta.php';
-                            $query = mysqli_query($con, "SELECT * FROM relatorio");
+                            $query = mysqli_query($con, "SELECT * FROM agenda");
                             if ($query->num_rows > 0) {
-                                while ($relatorio = $query->fetch_array()) {
-                                    $id = $relatorio['id'];                                   
+                                while ($agenda = $query->fetch_array()) {
+                                    $id = $agenda['id'];                                   
                                     echo '<tr>';
-                                    echo '<th scope="row">' . $relatorio['id'] . '</th>';
-                                    echo '<td>' . $relatorio['vendas'] . '</td>';
-                                    echo '<td>' . $relatorio['saidas'] . '</td>';
-                                    echo '<td>' . $relatorio['data'] . '</td>';
-                                    echo '<td>' . $relatorio['hora'] . '</td>';
-                                    echo '<td><a href="#?id=' . $id . '" data-bs-toggle="modal" data-bs-target="#editaRelatorio' . $id . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    echo '<th scope="row">' . $agenda['id'] . '</th>';                                  
+                                    echo '<td>' . $agenda['lembrete'] . '</td>';
+                                    echo '<td>' . $agenda['data'] . '</td>';
+                                    echo '<td>' . $agenda['hora'] . '</td>';
+                                    echo '<td>' . $agenda['obs'] . '</td>';
+                                    echo '<td><a href="#?id=' . $id . '" data-bs-toggle="modal" data-bs-target="#editaAgenda' . $id . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                    </svg></a> | <a href="excluir_relatorio.php?id=' . $id . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                    </svg></a> | <a href="excluir_agenda.php?id=' . $id . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                     </svg></i></a></td>';
                             ?>
-                                    <div class="modal fade" id="editaRelatorio<?php echo $id; ?>" tabindex="0" aria-labelledby="editaRelatorio" aria-hidden="true" data-bs-backdrop="false">
+                                    <div class="modal fade" id="editaAgenda<?php echo $id; ?>" tabindex="0" aria-labelledby="editaAgenda" aria-hidden="true" data-bs-backdrop="false">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editaRelatorio">Editar Relatorios</h5>
+                                                    <h5 class="modal-title" id="editaAgenda">Editar Agenda</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <?php
                                                     include 'conecta.php';
-                                                    $query2 = mysqli_query($con, "SELECT * FROM relatorio WHERE id=$id");
+                                                    $query2 = mysqli_query($con, "SELECT * FROM agenda WHERE id=$id");
                                                     if ($query2->num_rows > 0) {
-                                                        while ($relatorio2 = $query2->fetch_array()) {
-                                                            $id = $relatorio2['id'];
-                                                            $vendas = $relatorio2['vendas'];
-                                                            $saidas = $relatorio2['saidas'];      
-                                                            $data= $relatorio2['data'];    
-                                                            $hora= $relatorio2['hora'];                                           
+                                                        while ($agenda2 = $query2->fetch_array()) {
+                                                            $id = $agenda2['id'];
+                                                            $lembrete = $agenda2['lembrete'];
+                                                            $data = $agenda2['data'];      
+                                                            $hora= $agenda2['hora'];    
+                                                            $obs= $agenda2['obs'];                                           
                                                         }
                                                     }
                                                     ?>
-                                                    <form action="atualiza_relatorio.php?id=<?php echo $id; ?>" method="post">                                                     
+                                                    <form action="atualiza_agenda.php?id=<?php echo $id; ?>" method="post">                                                     
                                                         <br />
-                                                        <label><b>Atualizar Venda</b></label>
-                                                        <input type="text" name="vendas" value="<?php echo $vendas; ?>" required="required" autofocus class="form-control border-color:gray" />                                                        
+                                                        <label><b>Atualizar Lembrete</b></label>
+                                                        <input type="text" name="lembrete" value="<?php echo $lembrete; ?>" required="required" autofocus class="form-control border-color:gray" />                                                        
                                                         <br />                                              
-                                                        <label><b>Atualizar Despesa</b></label>
-                                                        <input type="text" name="saidas" value="<?php echo $saidas; ?>" required="required" class="form-control" />                                                
-                                                        <br />   
                                                         <label><b>Atualizar Data</b></label>
                                                         <input type="date" name="data" value="<?php echo $data; ?>" required="required" class="form-control" />                                                
                                                         <br />   
                                                         <label><b>Atualizar Hora</b></label>
                                                         <input type="time" name="hora" value="<?php echo $hora; ?>" required="required" class="form-control" />                                                
+                                                        <br />   
+                                                        <label><b>Atualizar Observação</b></label>
+                                                        <input type="text" name="obs" value="<?php echo $obs; ?>" required="required"  class="form-control" />                                                
                                                         <br />   
                                                         <input type="submit" value="Atualizar" class="btn btn-outline-secondary" name='but_upload' />
                                                     </form>
@@ -144,18 +144,18 @@ if (!isset($_SESSION["user"])) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="cadastra_relatorio.php" method="post" enctype="multipart/form-data">
-                            <label><b>Vendas</b></label>
-                            <input type="text" name="vendas" placeholder="Digite um valor"  autofocus class="form-control border-color:gray" />
-                            <br />
-                            <label><b>Saidas</b></label>
-                            <input type="text" name="saidas" placeholder="Digite um valor"  class="form-control" />                                   
+                        <form action="cadastra_agenda.php" method="post" enctype="multipart/form-data">
+                            <label><b>Lembrete</b></label>
+                            <input type="text" name="lembrete" placeholder="Digite um lembrete"  autofocus class="form-control border-color:gray" />
                             <br />
                             <label><b>Data</b></label>
-                            <input type="date" name="data" placeholder="Digite a data e a hora da opereção required="required" class="form-control" />                                   
+                            <input type="date" name="data" placeholder="Digite a data"  class="form-control" />                                   
                             <br />
                             <label><b>Hora</b></label>
-                            <input type="time" name="hora" placeholder="Digite a data e a hora da opereção required="required" class="form-control" />                                   
+                            <input type="time" name="hora" placeholder="Digite a hora "required="required" class="form-control" />                                   
+                            <br />
+                            <label><b>Obeservações</b></label>
+                            <input type="text" name="obs" placeholder="Digite uma observação"required="required" class="form-control" />                                   
                             <br />
                             <input type="submit" value="Cadastrar" class="btn btn-outline-secondary" name='but_upload' />
                         </form>

@@ -45,7 +45,9 @@
           </div>
           <div class="card-body">
             Conteúdo
-            <button type="button" class="w-100 btn btn-lg btn-outline-secondary">Ver Agenda</button>
+            <form action="agenda.php">
+            <button type="submit" class="w-100 btn btn-lg btn-outline-secondary">Ver Agenda</button>
+            </form>
           </div>
         </div>
       </div>
@@ -58,7 +60,7 @@
             Conteúdo
           </div>
         </div>
-      </div>
+      </div> 
       <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
           <div class="card-header py-3">
@@ -66,7 +68,9 @@
           </div>
           <div class="card-body">
            Conteúdo
-            <button type="button" class="w-100 btn btn-lg btn-outline-secondary">Visão Geral da Pet</button>
+           <form action="geral.php">
+            <button type="submit" class="w-100 btn btn-lg btn-outline-secondary">Visão Geral da Pet</button>
+  </form>
           </div>
         </div>
       </div>

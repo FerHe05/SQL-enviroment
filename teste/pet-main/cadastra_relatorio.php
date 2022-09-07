@@ -4,9 +4,10 @@
    
     $vendas = $_POST["vendas"];
     $saidas= $_POST["saidas"];
-    
+    $data= $_POST["data"];
+    $hora= $_POST["hora"];
  
-        $sql = "INSERT INTO relatorio(vendas,saidas) VALUES ('$vendas','$saidas')";
+        $sql = "INSERT INTO relatorio(vendas,saidas,data,hora) VALUES ('$vendas','$saidas','$data','$hora')";
         if(mysqli_query($con,$sql)){
             echo "<script language='javascript' type/javascript'>
             alert('Relatorio cadastrado com sucesso!');
