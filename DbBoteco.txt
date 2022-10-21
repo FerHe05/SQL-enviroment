@@ -1,0 +1,174 @@
+>>>>CLIENTE
+CREATE TABLE [dbo].[Cliente] (
+    [Id]              INT        IDENTITY (1, 1) NOT NULL,
+    [nome]            NCHAR (90) NULL,
+    [cpf]             NCHAR (15) NULL,
+    [data_nascimento] NCHAR (15) NULL,
+    [celular]         NCHAR (15) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+>>>>FUNCIONARIO
+CREATE TABLE [dbo].[Funcionario] (
+    [Id]              INT        IDENTITY (1, 1) NOT NULL,
+    [nome]            NCHAR (90) NULL,
+    [celular]         NCHAR (12) NULL,
+    [endereco]        NCHAR (95) NULL,
+    [complemento]     NCHAR (45) NULL,
+    [cidade]          NCHAR (65) NULL,
+    [cep]             NCHAR (10) NULL,
+    [cpf]             NCHAR (14) NULL,
+    [cc]              NCHAR (15) NULL,
+    [pix]             NCHAR (55) NULL,
+    [genero]          NCHAR (20) NULL,
+    [data_nascimento] NCHAR (15) NULL,
+    [funcao]          NCHAR (25) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+>>>>ITENSPEDIDOS
+CREATE TABLE [dbo].[ItensPedido] (
+    [Id]             INT             IDENTITY (1, 1) NOT NULL,
+    [id_venda]       INT             NULL,
+    [id_produto]     INT             NULL,
+    [quantidade]     INT             NULL,
+    [valor_unitario] DECIMAL (18, 2) NULL,
+    [valor_total]    DECIMAL (18, 2) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+>>>>ITENSVENDIDO
+CREATE TABLE [dbo].[ItensVendido] (
+    [Id]             INT             IDENTITY (1, 1) NOT NULL,
+    [id_venda]       INT             NULL,
+    [id_produto]     INT             NULL,
+    [quantidade]     INT             NULL,
+    [valor_unitario] DECIMAL (18, 2) NULL,
+    [valor_total]    DECIMAL (18, 2) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+>>>>PRODUTO
+CREATE TABLE [dbo].[Produto] (
+    [Id]         INT             IDENTITY (1, 1) NOT NULL,
+    [nome]       NCHAR (55)      NULL,
+    [tipo]       NCHAR (35)      NULL,
+    [quantidade] INT             NULL,
+    [preco]      DECIMAL (18, 2) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+>>>>USUARIO
+CREATE TABLE [dbo].[Usuario] (
+    [Id]    INT        IDENTITY (1, 1) NOT NULL,
+    [login] NCHAR (25) NULL,
+    [senha] NCHAR (25) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+>>>>VENDA
+CREATE TABLE [dbo].[Venda] (
+    [Id]         INT             IDENTITY (1, 1) NOT NULL,
+    [id_pessoa]  NCHAR (10)      NULL,
+    [total]      DECIMAL (18, 2) NULL,
+    [data_venda] DATE            NULL,
+    [situacao]   NCHAR (10)      NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+----------------<<<<PROCEDURES>>>>------------------
+
+>>>>APAGARPRODUTO
+CREATE PROCEDURE [dbo].[ApagarProduto]
+	@Id int
+AS
+	DELETE FROM Produto WHERE Id=@Id
+RETURN 0
+
+>>>>ATUALIZARPRODUTO
+CREATE PROCEDURE [dbo].[AtualizarProduto]
+	@Id int,
+	@nome nchar(55),
+	@tipo nchar(35),
+	@quantidade int,
+	@preco decimal(18,2)
+AS
+	UPDATE Produto SET nome=@nome,tipo=@tipo,quantidade=@quantidade,preco=@preco WHERE Id=@Id
+RETURN 0
+
+>>>>INSERIRITENSPEDIDOS
+CREATE PROCEDURE [dbo].[InserirItensPedidos]
+	@id_venda int,
+	@id_produto int,
+	@quantidade int,
+	@valor_unitario decimal (18,2),
+	@valor_total decimal (18,2)
+AS
+	INSERT INTO ItensPedido(id_venda, id_produto, quantidade, valor_unitario, valor_total) VALUES (@id_venda, @id_produto, @quantidade, @valor_unitario, @valor_total)
+RETURN 0
+
+>>>>INSERIRITENSVENDIDOS
+CREATE PROCEDURE [dbo].[InserirItensVendidos]
+	@id_venda int,
+	@id_produto int,
+	@quantidade int,
+	@valor_unitario decimal (18,2),
+	@valor_total decimal (18,2)
+AS
+	INSERT INTO ItensVendido(id_venda, id_produto, quantidade, valor_unitario, valor_total) VALUES (@id_venda, @id_produto, @quantidade, @valor_unitario, @valor_total)
+RETURN 0
+
+>>>>INSERIRPRODUTO
+CREATE PROCEDURE [dbo].[InserirProduto]
+	@nome nchar(55),
+	@tipo nchar(35),
+	@quantidade int,
+	@preco decimal(18,2)
+AS
+	INSERT INTO Produto(nome,tipo,quantidade,preco) VALUES (@nome,@tipo,@quantidade,@preco)
+RETURN 0
+
+>>>>INSERIRVENDA
+CREATE PROCEDURE [dbo].[InserirVenda]
+	@Id_pessoa nchar(11),
+	@total decimal(18,2),
+	@data_venda date,
+	@situacao nchar(15)
+AS
+	INSERT INTO Venda(id_pessoa, total, data_venda, situacao) VALUES (@Id_pessoa, @total, @data_venda, @situacao)
+RETURN 0
+
+>>>>LOCALIZARPEDIDO
+CREATE PROCEDURE [dbo].[LocalizarPedido]
+	@Id int
+AS
+	select Venda.*, ItensPedido.*, Cliente.Id, Cliente.nome as nomecliente, Produto.Id, Produto.nome as nomeproduto from Venda inner join ItensPedido on Venda.Id = ItensPedido.id_venda inner join Cliente on Venda.id_pessoa = Cliente.Id inner join Produto on ItensPedido.id_produto = Produto.Id where Venda.Id = @Id
+RETURN 0
+
+>>>>LOCALIZARPRODUTO
+CREATE PROCEDURE [dbo].[LocalizarProduto]
+	@Id int
+AS
+	SELECT * FROM Produto WHERE Id=@Id
+RETURN 0
+
+>>>>LOCALIZARVENDIDO
+CREATE PROCEDURE [dbo].[LocalizarVendido]
+	@Id int
+AS
+	select Venda.*, ItensPedido.*, Cliente.Id, Cliente.nome as nomecliente, Produto.Id, Produto.nome as nomeproduto from Venda inner join ItensPedido on Venda.Id = ItensPedido.id_venda inner join Cliente on Venda.id_pessoa = Cliente.Id inner join Produto on ItensPedido.id_produto = Produto.Id where Venda.Id = @Id
+RETURN 0
+
+>>>>QUANTIDADEPRODUTO
+CREATE PROCEDURE [dbo].[Quantidade_Produto]
+	@Id int
+AS
+	SELECT quantidade FROM Produto WHERE Id=@Id
+RETURN 0
+
+>>>>VENDAID
+CREATE PROCEDURE [dbo].[VendaId]
+	@Id int
+AS
+	SELECT * FROM Venda WHERE Id = @Id
+RETURN 0
